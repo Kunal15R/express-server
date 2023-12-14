@@ -20,27 +20,42 @@ api.get('/hello', (req, res) => {
   res.status(200).send({ message: 'hello world' });
 });
 
-api.get("/sol", async (req, res) => {
+app.get("/sol", async (req, res) => {
   const { address } = req.query;
   try {
     console.log(address);
     // random number between 1 to 4
     const random = Math.floor(Math.random() * 4) + 1;
     console.log(random);
-    const request = await axios.post(
+    // const request = await axios.post(
+    //   "https://rest-api.hellomoon.io/v0/nft/magiceden/wallet-all-time-stats",
+    //   {
+    //     ownerAccount: address,
+    //   },
+    //   {
+    //     headers: {
+    //         // HELLO_MOON_API_KEY_1 - here 1 is the random number
+    //         Authorization: `Bearer ${process.env[`HELLO_MOON_API_KEY_${random}`]}`,
+    //     },
+    //   }
+    // );
+    // use fetch
+    const request = await fetch(
       "https://rest-api.hellomoon.io/v0/nft/magiceden/wallet-all-time-stats",
       {
-        ownerAccount: address,
-      },
-      {
+        method: "POST",
+        body: JSON.stringify({
+          ownerAccount: address,
+        }),
         headers: {
-            // HELLO_MOON_API_KEY_1 - here 1 is the random number
-            Authorization: `Bearer ${process.env[`HELLO_MOON_API_KEY_${random}`]}`,
+          // HELLO_MOON_API_KEY_1 - here 1 is the random number
+          Authorization: `Bearer ${process.env[`HELLO_MOON_API_KEY_${random}`]}`,
         },
       }
     );
 
-    let data = request.data?.data;
+      let data = await request.json();
+      data = data?.data
     let nftData = {}
 
     if (data?.length > 0) {
