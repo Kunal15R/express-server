@@ -40,6 +40,7 @@ app.get("/sol", async (req, res) => {
         },
       }
     );
+    let data = request.data?.data;
     let nftData = {}
 
     if (data?.length > 0) {
