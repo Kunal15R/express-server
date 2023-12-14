@@ -62,7 +62,7 @@ app.get("/sol", async (req, res) => {
       nftData: nftData,
     });
   } catch (err) {
-    console.log(err.message);
+    console.log(err);
     res.status(500).send("Server error");
   }
 });
